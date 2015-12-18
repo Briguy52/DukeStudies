@@ -12,20 +12,16 @@ import UIKit
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-    var ACCESS_TOKEN: String?
+    var ACCESS_TOKEN: String!
     
     // Add handleOpenURL function- will call this function everytime the app is opened from a URL
-    func application(application: UIApplication, openURL url: NSURL) -> Bool {
-        
-        if url.host == nil
-        {
-            return true;
-        }
-        
+    func application(application: UIApplication, handleOpenURL url: NSURL) -> Bool {
         let urlString = url.query // take in String https://YOUR_CALLBACK_URL/?access_token=ACCESS_TOKEN
         let queryArray = urlString!.componentsSeparatedByString("=") // split url like Java's String.split()
         ACCESS_TOKEN = queryArray[1]; // should contain ACCESS TOKEN only
+        print(ACCESS_TOKEN);
         return true;
+        //TODO: Add bad request check
     }
     
     
