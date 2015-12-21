@@ -7,6 +7,8 @@
 //
 
 import UIKit
+//import Alamofire
+
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -14,19 +16,30 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
     var ACCESS_TOKEN: String!
     
+    
     // Add handleOpenURL function- will call this function everytime the app is opened from a URL
     func application(application: UIApplication, handleOpenURL url: NSURL) -> Bool {
         let urlString = url.query // take in String https://YOUR_CALLBACK_URL/?access_token=ACCESS_TOKEN
         let queryArray = urlString!.componentsSeparatedByString("=") // split url like Java's String.split()
         ACCESS_TOKEN = queryArray[1]; // should contain ACCESS TOKEN only
         print(ACCESS_TOKEN);
+        
+//        Alamofire.request(.GET, "https://httpbin.org/get", parameters: ["foo": "bar"])
+//            .responseJSON { response in
+//                print(response.request)  // original URL request
+//                print(response.response) // URL response
+//                print(response.data)     // server data
+//                print(response.result)   // result of response serialization
+//                
+//                if let JSON = response.result.value {
+//                    print("JSON: \(JSON)")
+//                }
+//        }
+        
         return true;
         //TODO: Add bad request check?
     }
     
-    
-    
-
     func applicationWillResignActive(application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
         // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
