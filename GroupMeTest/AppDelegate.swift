@@ -7,7 +7,7 @@
 //
 
 import UIKit
-//import Alamofire
+import Alamofire
 
 
 @UIApplicationMain
@@ -15,6 +15,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
     var ACCESS_TOKEN: String!
+    var ADMIN_TOKEN: String! = "mKwo1rVF68TzCEVzXT4RTkjG6fl0gnRnyYqPWgDK"
     
     
     // Add handleOpenURL function- will call this function everytime the app is opened from a URL
@@ -24,13 +25,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         ACCESS_TOKEN = queryArray[1]; // should contain ACCESS TOKEN only
         print(ACCESS_TOKEN);
         
-//        Alamofire.request(.GET, "https://httpbin.org/get", parameters: ["foo": "bar"])
+        // Make group with ADMIN_TOKEN
+        let parameters: [String: AnyObject] = ["name":"Test 3"]
+        Alamofire.request(.POST, "https://api.groupme.com/v3/groups?token=" + ACCESS_TOKEN, parameters: parameters, encoding: .JSON).responseJSON { response in
+            if let JSON = response.result.value {
+                print("JSON: \(JSON)")
+            }
+            }
+                
+//        Alamofire.request(.GET, "https://api.groupme.com/v3/groups?token=" + ACCESS_TOKEN)
 //            .responseJSON { response in
-//                print(response.request)  // original URL request
-//                print(response.response) // URL response
-//                print(response.data)     // server data
-//                print(response.result)   // result of response serialization
-//                
 //                if let JSON = response.result.value {
 //                    print("JSON: \(JSON)")
 //                }
