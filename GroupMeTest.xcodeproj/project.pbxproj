@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6C2EB86DC8CBAC913D19023B /* Pods_GroupMeTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B08F12E6611C22D6E494E2E9 /* Pods_GroupMeTest.framework */; };
 		6DE5D28D0CDD4DB2B2B7AA0B /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E24914A70891FD3EC4FD773B /* Pods.framework */; };
 		AFCD8AB71C210B4D00A4A0EB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFCD8AB61C210B4D00A4A0EB /* AppDelegate.swift */; };
 		AFCD8AB91C210B4D00A4A0EB /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFCD8AB81C210B4D00A4A0EB /* ViewController.swift */; };
@@ -24,6 +25,7 @@
 		AFCD8ABD1C210B4D00A4A0EB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		AFCD8AC01C210B4D00A4A0EB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		AFCD8AC21C210B4D00A4A0EB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B08F12E6611C22D6E494E2E9 /* Pods_GroupMeTest.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_GroupMeTest.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CFEE06621C52905736CF02B5 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		E24914A70891FD3EC4FD773B /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -34,6 +36,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6DE5D28D0CDD4DB2B2B7AA0B /* Pods.framework in Frameworks */,
+				6C2EB86DC8CBAC913D19023B /* Pods_GroupMeTest.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -44,6 +47,7 @@
 			isa = PBXGroup;
 			children = (
 				E24914A70891FD3EC4FD773B /* Pods.framework */,
+				B08F12E6611C22D6E494E2E9 /* Pods_GroupMeTest.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -169,7 +173,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-frameworks.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-GroupMeTest/Pods-GroupMeTest-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		392A73DDC5BEADC6F5C87513 /* Copy Pods Resources */ = {
@@ -184,7 +188,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-GroupMeTest/Pods-GroupMeTest-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		4F74B4B10BDFE8697AC7207B /* Check Pods Manifest.lock */ = {

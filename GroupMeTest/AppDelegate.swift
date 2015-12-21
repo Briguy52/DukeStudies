@@ -9,7 +9,6 @@
 import UIKit
 import Alamofire
 
-
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
@@ -27,12 +26,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // Make group with ADMIN_TOKEN
         let parameters: [String: AnyObject] = ["name":"Test 3"]
-        Alamofire.request(.POST, "https://api.groupme.com/v3/groups?token=" + ACCESS_TOKEN, parameters: parameters, encoding: .JSON).responseJSON { response in
+        Alamofire.request(.POST, "https://api.groupme.com/v3/groups?token=" + ADMIN_TOKEN, parameters: parameters, encoding: .JSON).responseJSON { response in
+            
             if let JSON = response.result.value {
                 print("JSON: \(JSON)")
             }
+            
+            
+            
+           
             }
-                
+        
+        
 //        Alamofire.request(.GET, "https://api.groupme.com/v3/groups?token=" + ACCESS_TOKEN)
 //            .responseJSON { response in
 //                if let JSON = response.result.value {
