@@ -21,7 +21,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         ACCESS_TOKEN = queryArray[1]; // should contain ACCESS TOKEN only
         print(ACCESS_TOKEN);
         return true;
-        //TODO: Add bad request check
+        //TODO: Add bad request check?
     }
     
     
