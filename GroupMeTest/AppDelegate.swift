@@ -45,6 +45,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //                }
                 if let test = response.result.value {
                     print("test: \(test["response"]!!["group_id"])") // Use this format to parse JSON!! 
+                    
                 }
         }
         
