@@ -25,29 +25,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         print(ACCESS_TOKEN);
         
         // Make group with ADMIN_TOKEN
-//        let parameters: [String: AnyObject] = ["name":"Test 3", "share":true]
-//        Alamofire.request(.POST, "https://api.groupme.com/v3/groups?token=" + ADMIN_TOKEN, parameters: parameters, encoding: .JSON).responseJSON { response in
-//            
-//            if let JSON = response.result.value {
-//                print("JSON: \(JSON)")
-//            }
-//            
-//            
-//            
-//           
-//            }
+        let parameters: [String: AnyObject] = ["name":"Test 1", "share":true]
+        Alamofire.request(.POST, "https://api.groupme.com/v3/groups?token=" + ADMIN_TOKEN, parameters: parameters, encoding: .JSON).responseJSON { response in
+            
+            if let test = response.result.value {
+                print("test: \(test["response"]!!["group_id"])") // Use this format to parse JSON!!
+            }
+           
+            }
         
         
-        Alamofire.request(.GET, "https://api.groupme.com/v3/groups/18621904?token=" + ACCESS_TOKEN)
-            .responseJSON { response in
-//                if let JSON = response.result.value {
-//                    print("JSON: \(JSON)")
+//        Alamofire.request(.GET, "https://api.groupme.com/v3/groups/18621904?token=" + ACCESS_TOKEN)
+//            .responseJSON { response in
+//                if let test = response.result.value {
+//                    print("test: \(test["response"]!!["group_id"])") // Use this format to parse JSON!! 
+//                    
 //                }
-                if let test = response.result.value {
-                    print("test: \(test["response"]!!["group_id"])") // Use this format to parse JSON!! 
-                    
-                }
-        }
+//        }
         
         return true;
         //TODO: Add bad request check?
