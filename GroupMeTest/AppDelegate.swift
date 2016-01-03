@@ -14,7 +14,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
     var ACCESS_TOKEN: String!
-    var ADMIN_TOKEN: String! = "mKwo1rVF68TzCEVzXT4RTkjG6fl0gnRnyYqPWgDK"
+    var ADMIN_TOKEN: String! = "Y91fGvjiajZvuMaymgKF0tU5DR6SEJHyyBX4lssu"
     
     
     // Add handleOpenURL function- will call this function everytime the app is opened from a URL
