@@ -15,8 +15,8 @@ import Bolts
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-    var ACCESS_TOKEN: String!
-    var ADMIN_TOKEN: String! = "Y91fGvjiajZvuMaymgKF0tU5DR6SEJHyyBX4lssu"
+    var ACCESS_TOKEN: String! // This access token belongs to the user and will be used to join or leave groups that have been created already (user will never create a group)
+    var ADMIN_TOKEN: String! = "Y91fGvjiajZvuMaymgKF0tU5DR6SEJHyyBX4lssu" // This access token corresponds to an admin account that we will use to create and track every single group
     
     
     // Add handleOpenURL function- will call this function everytime the app is opened from a URL
@@ -26,26 +26,28 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         ACCESS_TOKEN = queryArray[1]; // should contain ACCESS TOKEN only
         print(ACCESS_TOKEN);
         
-        // Make group with ADMIN_TOKEN
-//        let parameters: [String: AnyObject] = ["name":"Test 1", "share":true]
-//        Alamofire.request(.POST, "https://api.groupme.com/v3/groups?token=" + ADMIN_TOKEN, parameters: parameters, encoding: .JSON).responseJSON { response in
-//            
-//            if let test = response.result.value {
-//                print("test: \(test["response"]!!["group_id"])") // Use this format to parse JSON!!
-//            }
-//           
-//            }
+        // This code chunk MAKES a group using the ADMIN_TOKEN
+        let parameters: [String: AnyObject] = ["name":"Test 1", "share":true]
+        Alamofire.request(.POST, "https://api.groupme.com/v3/groups?token=" + ADMIN_TOKEN, parameters: parameters, encoding: .JSON).responseJSON { response in
+            
+            if let test = response.result.value {
+                print("test: \(test["response"]!!["group_id"])") // Use this format to parse JSON!!
+            }
+           
+            }
         
+        // This code chunk is for setting up PARSE
         Parse.setApplicationId("jy4MUG3yk2hLkU7NVTRRwQx1p5siV9BPwjr3410A",
             clientKey: "crnLPudofSLV9LmmydyAl2Eb8sJmlHi4Pd6HNtxW")
         
+        // This code chunk is for testing PARSE
         let testObject = PFObject(className: "TestObject")
         testObject["foo"] = "bar"
         testObject.saveInBackgroundWithBlock { (success: Bool, error: NSError?) -> Void in
             print("Object has been saved.")
         }
         
-        
+        // This code chunk JOINS a group with the user's ACCESS_TOKEN
 //        Alamofire.request(.GET, "https://api.groupme.com/v3/groups/18621904?token=" + ACCESS_TOKEN)
 //            .responseJSON { response in
 //                if let test = response.result.value {
