@@ -26,19 +26,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         ACCESS_TOKEN = queryArray[1]; // should contain ACCESS TOKEN only
         print(ACCESS_TOKEN);
         
-//        var courseString: String! = "Bio201" // Placeholder Course String
-        var groupID: String! // Store GroupID of newly created group
+        var courseString = "Bio201" // Placeholder Course String
+        var groupID = String() // Store GroupID of newly created group
+        var memberCount = Int() //
         
 //         This code chunk SHOWS a group with the user's ACCESS_TOKEN
             Alamofire.request(.GET, "https://api.groupme.com/v3/groups/18779921?token=" + ACCESS_TOKEN)
                 .responseJSON { response in
                     if let test = response.result.value {
-                        print("My response: " + "\(test)")
+//                        print("My response: " + "\(test)")
 //                            groupID = Int("\(test["response"]!!["group_id"])")
-                        groupID = "\(test["response"]??["group_id"])"
-                        print( "\(groupID)") // Print for debugging
+                        groupID = "\(test["response"]!!["group_id"])"
+//                        print( "\(groupID)") // Need to get rid of Optional() wrapper
+                        print("Course String: " + courseString)
+                        print("Group ID: " + groupID)
                         
-                        print("Number of members: \(test["response"]!!["members"])") // Use this format to parse JSON!!
+                        
+//                        print("Number of members: \(test["response"]!!["members"]!!.count)") // This needs to be checked
+                        memberCount = test["response"]!!["members"]!!.count
+                        print("Member Count: " + String(memberCount))
         
                     }
             }
