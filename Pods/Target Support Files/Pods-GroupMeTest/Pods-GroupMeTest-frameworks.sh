@@ -85,9 +85,13 @@ strip_invalid_archs() {
 
 if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "Pods-GroupMeTest/Alamofire.framework"
+  install_framework "Pods-GroupMeTest/Bolts.framework"
+  install_framework "Pods-GroupMeTest/Parse.framework"
   install_framework "Pods-GroupMeTest/SwiftyJSON.framework"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "Pods-GroupMeTest/Alamofire.framework"
+  install_framework "Pods-GroupMeTest/Bolts.framework"
+  install_framework "Pods-GroupMeTest/Parse.framework"
   install_framework "Pods-GroupMeTest/SwiftyJSON.framework"
 fi

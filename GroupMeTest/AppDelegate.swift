@@ -8,6 +8,8 @@
 
 import UIKit
 import Alamofire
+import Parse
+import Bolts
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -25,14 +27,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         print(ACCESS_TOKEN);
         
         // Make group with ADMIN_TOKEN
-        let parameters: [String: AnyObject] = ["name":"Test 1", "share":true]
-        Alamofire.request(.POST, "https://api.groupme.com/v3/groups?token=" + ADMIN_TOKEN, parameters: parameters, encoding: .JSON).responseJSON { response in
-            
-            if let test = response.result.value {
-                print("test: \(test["response"]!!["group_id"])") // Use this format to parse JSON!!
-            }
-           
-            }
+//        let parameters: [String: AnyObject] = ["name":"Test 1", "share":true]
+//        Alamofire.request(.POST, "https://api.groupme.com/v3/groups?token=" + ADMIN_TOKEN, parameters: parameters, encoding: .JSON).responseJSON { response in
+//            
+//            if let test = response.result.value {
+//                print("test: \(test["response"]!!["group_id"])") // Use this format to parse JSON!!
+//            }
+//           
+//            }
+        
+        Parse.setApplicationId("jy4MUG3yk2hLkU7NVTRRwQx1p5siV9BPwjr3410A",
+            clientKey: "crnLPudofSLV9LmmydyAl2Eb8sJmlHi4Pd6HNtxW")
+        
+        let testObject = PFObject(className: "TestObject")
+        testObject["foo"] = "bar"
+        testObject.saveInBackgroundWithBlock { (success: Bool, error: NSError?) -> Void in
+            print("Object has been saved.")
+        }
         
         
 //        Alamofire.request(.GET, "https://api.groupme.com/v3/groups/18621904?token=" + ACCESS_TOKEN)
