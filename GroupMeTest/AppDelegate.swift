@@ -54,6 +54,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     print("Member Count: " + String(memberCount))
                     print(memberCount)
                     
+                    // This code chunk is for testing PARSE
+                    // CITE: Taken from Parse's quick start tutorial: https://parse.com/apps/quickstart#parse_data/mobile/ios/swift/existing
+                    var testObject = PFObject(className: courseString)
+                    testObject["GroupID"] = String(groupID)
+                    testObject["MemberCount"] = Int(memberCount)
+                    testObject.saveInBackgroundWithBlock { (success: Bool, error: NSError?) -> Void in
+                        print("New group has been created and stored.")
+                    }
+
+                    
                 }
         }
         
@@ -70,15 +80,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //                    }
         
         // For some reason, the below code is executing before the Alamofire stuff, which causes us to send blank fields to Parse
-        print("end")
         // This code chunk is for testing PARSE
         // CITE: Taken from Parse's quick start tutorial: https://parse.com/apps/quickstart#parse_data/mobile/ios/swift/existing
-        var testObject = PFObject(className: courseString)
-        testObject["GroupID"] = String(groupID)
-        testObject["MemberCount"] = Int(memberCount)
-        testObject.saveInBackgroundWithBlock { (success: Bool, error: NSError?) -> Void in
-            print("New group has been created and stored.")
-        }
+//        var testObject = PFObject(className: courseString)
+//        testObject["GroupID"] = String(groupID)
+//        testObject["MemberCount"] = Int(memberCount)
+//        testObject.saveInBackgroundWithBlock { (success: Bool, error: NSError?) -> Void in
+//            print("New group has been created and stored.")
+//        }
+//        print("end")
         
         
         
