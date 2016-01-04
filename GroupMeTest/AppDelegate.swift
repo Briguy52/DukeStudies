@@ -29,35 +29,43 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //        var courseString: String! = "Bio201" // Placeholder Course String
         var groupID: String! // Store GroupID of newly created group
         
+//         This code chunk SHOWS a group with the user's ACCESS_TOKEN
+            Alamofire.request(.GET, "https://api.groupme.com/v3/groups/18779921?token=" + ACCESS_TOKEN)
+                .responseJSON { response in
+                    if let test = response.result.value {
+                        print("My response: " + "\(test)")
+//                            groupID = Int("\(test["response"]!!["group_id"])")
+                        groupID = "\(test["response"]??["group_id"])"
+                        print( "\(groupID)") // Print for debugging
+                        
+                        print("Number of members: \(test["response"]!!["members"])") // Use this format to parse JSON!!
+        
+                    }
+            }
+        
         // This code chunk MAKES a group using the ADMIN_TOKEN
-        let parameters: [String: AnyObject] = ["name":"Test 1", "share":true]
-        Alamofire.request(.POST, "https://api.groupme.com/v3/groups?token=" + ADMIN_TOKEN, parameters: parameters, encoding: .JSON).responseJSON { response in
-            if let test = response.result.value {
-                groupID = "\(test["response"]!!["group_id"])"
-                print(groupID) // Print for debugging
-//                print("test: \(test["response"]!!["group_id"])") // Use this format to parse JSON!!
-            }
-            }
+//        let parameters: [String: AnyObject] = ["name":"Test 1", "share":true]
+//        Alamofire.request(.POST, "https://api.groupme.com/v3/groups?token=" + ADMIN_TOKEN, parameters: parameters, encoding: .JSON).responseJSON { response in
+//            if let test = response.result.value {
+//                groupID = Int("\(test["response"]!!["group_id"])")
+//                print( "\(groupID)") // Print for debugging
+//                
+//                print("Number of members: \(test["response"]!!["members"])") // Use this format to parse JSON!!
+//            }
+//            }
         
         // This code chunk is for setting up PARSE
         Parse.setApplicationId("jy4MUG3yk2hLkU7NVTRRwQx1p5siV9BPwjr3410A",
             clientKey: "crnLPudofSLV9LmmydyAl2Eb8sJmlHi4Pd6HNtxW")
         
         // This code chunk is for testing PARSE
-//        let testObject = PFObject(className: courseString)
-//        testObject["groupID"] = groupID
+//        let testObject = PFObject(className: "Test Course")
+//        testObject["Group ID"] = groupID
 //        testObject.saveInBackgroundWithBlock { (success: Bool, error: NSError?) -> Void in
 //            print("New group has been created and stored.")
 //        }
         
-        // This code chunk JOINS a group with the user's ACCESS_TOKEN
-//        Alamofire.request(.GET, "https://api.groupme.com/v3/groups/18621904?token=" + ACCESS_TOKEN)
-//            .responseJSON { response in
-//                if let test = response.result.value {
-//                    print("test: \(test["response"]!!["group_id"])") // Use this format to parse JSON!! 
-//                    
-//                }
-//        }
+
         
         return true;
         //TODO: Add bad request check?
