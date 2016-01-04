@@ -17,8 +17,8 @@ class ViewController: UIViewController {
     @IBOutlet weak var GroupMeLogin: UIButton!
     // Sends user to GroupMe login page within the browser 
     @IBAction func requestGroupMeAccess(sender: AnyObject) {
-        let authURL = NSURL(string: "https://oauth.groupme.com/oauth/authorize?client_id=PbjA37nq8pWpjuHDALASadyhVccu3STL4Vj5DrjpZLooTwK6")
-        UIApplication.sharedApplication().openURL(authURL!)
+        let authURL = NSURL(string: "https://oauth.groupme.com/oauth/authorize?client_id=PbjA37nq8pWpjuHDALASadyhVccu3STL4Vj5DrjpZLooTwK6") // redirect URL to GroupMe OAuth login
+        UIApplication.sharedApplication().openURL(authURL!) // opens above URL 
         print("buttonpressed")
     }
 
