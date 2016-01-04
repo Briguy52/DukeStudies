@@ -8,13 +8,15 @@
 
 import UIKit
 import Alamofire
+import Parse
+import Bolts
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-    var ACCESS_TOKEN: String!
-    var ADMIN_TOKEN: String! = "mKwo1rVF68TzCEVzXT4RTkjG6fl0gnRnyYqPWgDK"
+    var ACCESS_TOKEN: String! // This access token belongs to the user and will be used to join or leave groups that have been created already (user will never create a group)
+    var ADMIN_TOKEN: String! = "Uy6V4BXpuvHDp6XUWZ0IkgSQojFRw1h3SRhAWoK6" // This access token corresponds to an admin account that we will use to create and track every single group
     
     
     // Add handleOpenURL function- will call this function everytime the app is opened from a URL
@@ -24,24 +26,36 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         ACCESS_TOKEN = queryArray[1]; // should contain ACCESS TOKEN only
         print(ACCESS_TOKEN);
         
-        // Make group with ADMIN_TOKEN
-        let parameters: [String: AnyObject] = ["name":"Test 3"]
+//        var courseString: String! = "Bio201" // Placeholder Course String
+        var groupID: String! // Store GroupID of newly created group
+        
+        // This code chunk MAKES a group using the ADMIN_TOKEN
+        let parameters: [String: AnyObject] = ["name":"Test 1", "share":true]
         Alamofire.request(.POST, "https://api.groupme.com/v3/groups?token=" + ADMIN_TOKEN, parameters: parameters, encoding: .JSON).responseJSON { response in
-            
-            if let JSON = response.result.value {
-                print("JSON: \(JSON)")
+            if let test = response.result.value {
+                groupID = "\(test["response"]!!["group_id"])"
+                print(groupID) // Print for debugging
+//                print("test: \(test["response"]!!["group_id"])") // Use this format to parse JSON!!
             }
-            
-            
-            
-           
             }
         
+        // This code chunk is for setting up PARSE
+        Parse.setApplicationId("jy4MUG3yk2hLkU7NVTRRwQx1p5siV9BPwjr3410A",
+            clientKey: "crnLPudofSLV9LmmydyAl2Eb8sJmlHi4Pd6HNtxW")
         
-//        Alamofire.request(.GET, "https://api.groupme.com/v3/groups?token=" + ACCESS_TOKEN)
+        // This code chunk is for testing PARSE
+//        let testObject = PFObject(className: courseString)
+//        testObject["groupID"] = groupID
+//        testObject.saveInBackgroundWithBlock { (success: Bool, error: NSError?) -> Void in
+//            print("New group has been created and stored.")
+//        }
+        
+        // This code chunk JOINS a group with the user's ACCESS_TOKEN
+//        Alamofire.request(.GET, "https://api.groupme.com/v3/groups/18621904?token=" + ACCESS_TOKEN)
 //            .responseJSON { response in
-//                if let JSON = response.result.value {
-//                    print("JSON: \(JSON)")
+//                if let test = response.result.value {
+//                    print("test: \(test["response"]!!["group_id"])") // Use this format to parse JSON!! 
+//                    
 //                }
 //        }
         
