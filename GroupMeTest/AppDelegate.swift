@@ -36,7 +36,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     if let test = response.result.value {
 //                        print("My response: " + "\(test)")
 //                            groupID = Int("\(test["response"]!!["group_id"])")
-                        groupID = "\(test["response"]!!["group_id"])"
+                        groupID = "\(test["response"]!!["group_id"]!!)"
 //                        print( "\(groupID)") // Need to get rid of Optional() wrapper
                         print("Course String: " + courseString)
                         print("Group ID: " + groupID)
