@@ -26,6 +26,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         Parse.setApplicationId("jy4MUG3yk2hLkU7NVTRRwQx1p5siV9BPwjr3410A",
             clientKey: "crnLPudofSLV9LmmydyAl2Eb8sJmlHi4Pd6HNtxW")
         
+        // OAuth Login Parsing
+        // CITE: Taken from Sam Wilskey's tutorial: http://samwilskey.com/swift-oauth/
         let urlString = url.query // take in String https://YOUR_CALLBACK_URL/?access_token=ACCESS_TOKEN
         let queryArray = urlString!.componentsSeparatedByString("=") // split url like Java's String.split()
         ACCESS_TOKEN = queryArray[1]; // should contain ACCESS TOKEN only
@@ -34,7 +36,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         var courseString = "Bio201" // Placeholder Course String
         var groupID = String() // Store GroupID of newly created group
         var memberCount = Int() //
-        
+        print("before Alamofire")
         //         This code chunk SHOWS a group with the user's ACCESS_TOKEN
         Alamofire.request(.GET, "https://api.groupme.com/v3/groups/18779921?token=" + ACCESS_TOKEN)
             .responseJSON { response in
@@ -55,28 +57,28 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 }
         }
         
-        // This code chunk MAKES a group using the ADMIN_TOKEN
-        //        let parameters: [String: AnyObject] = ["name":"Test 1", "share":true]
-        //        Alamofire.request(.POST, "https://api.groupme.com/v3/groups?token=" + ADMIN_TOKEN, parameters: parameters, encoding: .JSON).responseJSON { response in
-        //            if let test = response.result.value {
-        //                groupID = Int("\(test["response"]!!["group_id"])")
-        //                print( "\(groupID)") // Print for debugging
-        //
-        //                print("Number of members: \(test["response"]!!["members"])") // Use this format to parse JSON!!
-        //            }
-        //            }
+        // This code chunk MAKES a group using the ADMIN_TOKEN 
+        // CITE: Taken from Alamofire's documentation: https://github.com/Alamofire/Alamofire
+//                let parameters: [String: AnyObject] = ["name":"Test", "share":true]
+//                Alamofire.request(.POST, "https://api.groupme.com/v3/groups?token=" + ADMIN_TOKEN, parameters: parameters, encoding: .JSON).responseJSON { response in
+//                    if let test = response.result.value {
+//                        groupID = Int("\(test["response"]!!["group_id"])")
+//                        print( "\(groupID)") // Print for debugging
+//        
+//                        print("Number of members: \(test["response"]!!["members"])") // Use this format to parse JSON!!
+//                    }
+//                    }
         
         // For some reason, the below code is executing before the Alamofire stuff, which causes us to send blank fields to Parse
-        
+        print("end")
         // This code chunk is for testing PARSE
+        // CITE: Taken from Parse's quick start tutorial: https://parse.com/apps/quickstart#parse_data/mobile/ios/swift/existing
         var testObject = PFObject(className: courseString)
         testObject["GroupID"] = String(groupID)
         testObject["MemberCount"] = Int(memberCount)
-//        testObject.saveInBackgroundWithBlock { (success: Bool, error: NSError?) -> Void in
-//            print("New group has been created and stored.")
-        testObject.saveInBackground()
-        print("end")
-//        }
+        testObject.saveInBackgroundWithBlock { (success: Bool, error: NSError?) -> Void in
+            print("New group has been created and stored.")
+        }
         
         
         
