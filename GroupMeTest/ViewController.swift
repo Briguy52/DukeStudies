@@ -21,7 +21,8 @@ class ViewController: UIViewController {
         // CITE: Taken from Sam Wilskey's tutorial: http://samwilskey.com/swift-oauth/
         let authURL = NSURL(string: "https://oauth.groupme.com/oauth/authorize?client_id=PbjA37nq8pWpjuHDALASadyhVccu3STL4Vj5DrjpZLooTwK6")
         UIApplication.sharedApplication().openURL(authURL!)
-        print("Button Pressed")
+        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate // From StackOverflow: http://stackoverflow.com/questions/24046164/how-do-i-get-a-reference-to-the-app-delegate-in-swift
+        appDelegate.testFunc("Button Pressed")
     }
 
     override func viewDidLoad() {
