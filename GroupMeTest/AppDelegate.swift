@@ -27,7 +27,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     // Add handleOpenURL function- will call this function everytime the app is opened from a URL
     func application(application: UIApplication, handleOpenURL url: NSURL) -> Bool {
         
-        // This code chunk is for setting up PARSE
+        // This code  is for setting up PARSE
         Parse.setApplicationId("jy4MUG3yk2hLkU7NVTRRwQx1p5siV9BPwjr3410A",
             clientKey: "crnLPudofSLV9LmmydyAl2Eb8sJmlHi4Pd6HNtxW")
         
@@ -36,77 +36,104 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let urlString = url.query // take in String https://YOUR_CALLBACK_URL/?access_token=ACCESS_TOKEN
         let queryArray = urlString!.componentsSeparatedByString("=") // split url like Java's String.split()
         ACCESS_TOKEN = queryArray[1]; // should contain ACCESS TOKEN only
-//        print(ACCESS_TOKEN);
+        //        print(ACCESS_TOKEN);
         
         var courseString = "Test" // Placeholder Course String
         var groupID = String() // Store GroupID of newly created group
         var memberCount = Int() //
         var shareToken = String() // Store Share Token for Group
         
-        //         This code chunk SHOWS a group with the user's ACCESS_TOKEN
+        //         This code SHOWS a group with the user's ACCESS_TOKEN
         Alamofire.request(.GET, "https://api.groupme.com/v3/groups/18779921?token=" + ACCESS_TOKEN)
             .responseJSON { response in
                 if let test = response.result.value {
                     
-                    // Code chunk for parsing Group ID
+                    print("Following 3 print statements come from Alamofire callback")
+                    // Code for parsing Group ID
                     groupID = "\(test["response"]!!["group_id"]!!)"
                     print("Course String: " + courseString)
                     print("Group ID: " + groupID)
                     
-                    // Code chunk for parsing Share Token
+                    // Code for parsing Share Token
                     var shareURL = test["response"]!!["share_url"]!!
                     var shareArray = shareURL.componentsSeparatedByString("/")
                     shareToken = shareArray[shareArray.count-1]
                     
-                    // Code chunk for finding number of members
+                    // Code for finding number of members
                     memberCount = test["response"]!!["members"]!!.count
                     print("Member Count: " + String(memberCount))
-                    print(memberCount)
                     
-                    // This code chunk is for testing PARSE
-                    // CITE: Taken from Parse's quick start tutorial: https://parse.com/apps/quickstart#parse_data/mobile/ios/swift/existing
-                    var testObject = PFObject(className: courseString)
-                    testObject["groupID"] = groupID
-                    testObject["shareToken"] = shareToken
-                    testObject["memberCount"] = memberCount
-                    
-                    testObject.saveInBackgroundWithBlock { (success: Bool, error: NSError?) -> Void in
-                        if(success) {
-                            print("New group has been created and stored.")
-                            var objID = testObject.objectId
-                            print("Object ID is " + String(objID!))
-                        }
-                        else {
-                            print("Error encountered in creating group") // Probably should return actual NSError dictionary
+                    // This code is for pulling stuff FROM PARSE
+                    // CITE: Taken from Parse's iOS Developers Guide: https://parse.com/docs/ios/guide#queries
+                    print("Receiving query from Parse")
+                    var query = PFQuery(className:"Test")
+                    query.whereKey("memberCount", lessThan: 7) // Max size post add is 7 including Admin account
+                    query.findObjectsInBackgroundWithBlock {
+                        (objects: [PFObject]?, error: NSError?) -> Void in
+                        if error == nil {
+                            // The find succeeded.
+                            print("Successfully retrieved \(objects!.count) groups.")
+                            // Do something with the found objects
+                            if let objects = objects {
+                                for object in objects {
+                                    print("Object ID: " + object.objectId!)
+                                    print("Group ID: " + String(object["groupID"]))
+                                    print("Share Token: " + String(object["shareToken"]))
+                                    print("Member Count: " + String(object["memberCount"]))
+                                }
+                            }
+                            else {
+                                // Log details of the failure
+                                print("Error: \(error!) \(error!.userInfo)")
+                            }
                         }
                     }
-
+                    
+                    // This code is for sending stuff TO PARSE
+                    // CITE: Taken from Parse's quick start tutorial: https://parse.com/apps/quickstart#parse_data/mobile/ios/swift/existing
+                    //                    var testObject = PFObject(className: courseString)
+                    //                    testObject["groupID"] = groupID
+                    //                    testObject["shareToken"] = shareToken
+                    //                    testObject["memberCount"] = memberCount
+                    //
+                    //                    testObject.saveInBackgroundWithBlock { (success: Bool, error: NSError?) -> Void in
+                    //                        if(success) {
+                    //                            print("New group has been created and stored.")
+                    //                            var objID = testObject.objectId
+                    //                            print("Object ID is " + String(objID!))
+                    //                        }
+                    //                        else {
+                    //                            print("Error encountered in creating group")
+                    //                            print(error)
+                    //                        }
+                    //                    }
+                    
                     
                 }
         }
         
-        // This code chunk MAKES a group using the ADMIN_TOKEN 
+        // This code MAKES a group using the ADMIN_TOKEN
         // CITE: Taken from Alamofire's documentation: https://github.com/Alamofire/Alamofire
-//                let parameters: [String: AnyObject] = ["name":"Test", "share":true]
-//                Alamofire.request(.POST, "https://api.groupme.com/v3/groups?token=" + ADMIN_TOKEN, parameters: parameters, encoding: .JSON).responseJSON { response in
-//                    if let test = response.result.value {
-//                        groupID = Int("\(test["response"]!!["group_id"])")
-//                        print( "\(groupID)") // Print for debugging
-//        
-//                        print("Number of members: \(test["response"]!!["members"])") // Use this format to parse JSON!!
-//                    }
-//                    }
+        //                let parameters: [String: AnyObject] = ["name":"Test", "share":true]
+        //                Alamofire.request(.POST, "https://api.groupme.com/v3/groups?token=" + ADMIN_TOKEN, parameters: parameters, encoding: .JSON).responseJSON { response in
+        //                    if let test = response.result.value {
+        //                        groupID = Int("\(test["response"]!!["group_id"])")
+        //                        print( "\(groupID)") // Print for debugging
+        //
+        //                        print("Number of members: \(test["response"]!!["members"])") // Use this format to parse JSON!!
+        //                    }
+        //                    }
         
         // For some reason, the below code is executing before the Alamofire stuff, which causes us to send blank fields to Parse
-        // This code chunk is for testing PARSE
+        // This code is for testing PARSE
         // CITE: Taken from Parse's quick start tutorial: https://parse.com/apps/quickstart#parse_data/mobile/ios/swift/existing
-//        var testObject = PFObject(className: courseString)
-//        testObject["GroupID"] = String(groupID)
-//        testObject["MemberCount"] = Int(memberCount)
-//        testObject.saveInBackgroundWithBlock { (success: Bool, error: NSError?) -> Void in
-//            print("New group has been created and stored.")
-//        }
-//        print("end")
+        //        var testObject = PFObject(className: courseString)
+        //        testObject["GroupID"] = String(groupID)
+        //        testObject["MemberCount"] = Int(memberCount)
+        //        testObject.saveInBackgroundWithBlock { (success: Bool, error: NSError?) -> Void in
+        //            print("New group has been created and stored.")
+        //        }
+        //        print("end")
         
         
         
