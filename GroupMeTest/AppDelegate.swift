@@ -17,7 +17,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
     var ACCESS_TOKEN: String! // This access token belongs to the user and will be used to join or leave groups that have been created already (user will never create a group)
     var ADMIN_TOKEN: String! = "Uy6V4BXpuvHDp6XUWZ0IkgSQojFRw1h3SRhAWoK6" // This access token corresponds to an admin account that we will use to create and track every single group
-    var courseString = "Test" // Placeholder Course String
+    var courseString = "Test1" // Placeholder Course String
     let baseURL = "https://api.groupme.com/v3" // Base String for all GroupMe API calls
     var joinURL = String() // URL for joining (mutable)
     
@@ -112,6 +112,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                         }
                     }
                 }
+
+                if self.checkEmpty(groupID) {
+                    self.deleteGroup(groupID, objID: objectID)
+                    self.checkForOpen(self.courseString)
+                }
+                
                 self.makeString(groupID, myToken: shareToken, objID: objectID) // Callback function
             }
                 
@@ -122,7 +128,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 
                 // Make a new group
                 let parameters: [String: AnyObject] = ["name":myClass, "share":true]
-                Alamofire.request(.POST, self.baseURL + "groups?token=" + self.ADMIN_TOKEN, parameters: parameters, encoding: .JSON) // CREATES a new group using above 'parameters' variable
+                Alamofire.request(.POST, self.baseURL + "/groups?token=" + self.ADMIN_TOKEN, parameters: parameters, encoding: .JSON) // CREATES a new group using above 'parameters' variable
                     .responseJSON { response in
                         if let test = response.result.value {
                             
@@ -158,6 +164,38 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
     }
     
+    // Get group information for the group of interest and return whether it is empty or not (empty = size 1 = only admin)
+    func checkEmpty(myGroup: String) -> Bool {
+        var memberCount = Int()
+        Alamofire.request(.GET, self.baseURL + "/groups/" + myGroup + "?token=" + self.ADMIN_TOKEN) // SHOW group information
+            .responseJSON { response in
+                if let test = response.result.value {
+                    // Find number of members
+                    memberCount = test["response"]!!["members"]!!.count
+                    print("Member Count of " + myGroup + " : " + String(memberCount))
+                }
+        }
+        if memberCount == 1 {
+            return true
+        }
+        return false
+    }
+    
+    // Delete group from both GroupMe and Parse
+    func deleteGroup(groupID:String, objID:String) -> Void {
+        //TODO: Delete from Parse
+        var query = PFQuery(className:courseString)
+        query.getObjectInBackgroundWithId(objID) {
+            (object: PFObject?, error: NSError?) -> Void in
+            if error != nil {
+                print(error)
+            } else if let object = object {
+                object.deleteInBackground()
+                print("deletion of " + groupID + " successful")
+            }
+        }
+        Alamofire.request(.POST, self.baseURL + "/groups/" + groupID + "/destroy?token=" + self.ADMIN_TOKEN)
+    }
     
     // Prints a String
     func testFunc(myString: String) {
@@ -168,9 +206,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     // Takes inputs of 'Share Token' and 'Group ID' and returns a URL String to be used in GroupMe JOIN calls
     // Output is of form: /groups/:id/join/:share_token (String)
     
-    func makeString(myGroup: String, myToken: String, objID: String) -> Void {
-        print("/groups/" + myGroup + "/join/" + myToken)
-        self.joinURL = "/groups/" + myGroup + "/join/" + myToken
+    func makeString(groupID: String, myToken: String, objID: String) -> Void {
+        print("/groups/" + groupID + "/join/" + myToken)
+        self.joinURL = "/groups/" + groupID + "/join/" + myToken
         joinGroup(joinURL, objID: objID)
     }
     
