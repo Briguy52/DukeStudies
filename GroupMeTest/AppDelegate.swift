@@ -18,6 +18,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var ACCESS_TOKEN: String! // This access token belongs to the user and will be used to join or leave groups that have been created already (user will never create a group)
     var ADMIN_TOKEN: String! = "Uy6V4BXpuvHDp6XUWZ0IkgSQojFRw1h3SRhAWoK6" // This access token corresponds to an admin account that we will use to create and track every single group
     
+    // TODO: Make dedicated functions for:
+    // 1. Creating a group
+    // 2. Joining a group
+    // 3. Checking for open group
+    
     
     // Add handleOpenURL function- will call this function everytime the app is opened from a URL
     func application(application: UIApplication, handleOpenURL url: NSURL) -> Bool {
@@ -33,23 +38,27 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         ACCESS_TOKEN = queryArray[1]; // should contain ACCESS TOKEN only
 //        print(ACCESS_TOKEN);
         
-        var courseString = "Bio201" // Placeholder Course String
+        var courseString = "Test" // Placeholder Course String
         var groupID = String() // Store GroupID of newly created group
         var memberCount = Int() //
-        print("before Alamofire")
+        var shareToken = String() // Store Share Token for Group
+        
         //         This code chunk SHOWS a group with the user's ACCESS_TOKEN
         Alamofire.request(.GET, "https://api.groupme.com/v3/groups/18779921?token=" + ACCESS_TOKEN)
             .responseJSON { response in
                 if let test = response.result.value {
-                    //                        print("My response: " + "\(test)")
-                    //                            groupID = Int("\(test["response"]!!["group_id"])")
+                    
+                    // Code chunk for parsing Group ID
                     groupID = "\(test["response"]!!["group_id"]!!)"
-                    //                        print( "\(groupID)") // Need to get rid of Optional() wrapper
                     print("Course String: " + courseString)
                     print("Group ID: " + groupID)
                     
+                    // Code chunk for parsing Share Token
+                    var shareURL = test["response"]!!["share_url"]!!
+                    var shareArray = shareURL.componentsSeparatedByString("/")
+                    shareToken = shareArray[shareArray.count-1]
                     
-                    //                        print("Number of members: \(test["response"]!!["members"]!!.count)") // This needs to be checked
+                    // Code chunk for finding number of members
                     memberCount = test["response"]!!["members"]!!.count
                     print("Member Count: " + String(memberCount))
                     print(memberCount)
@@ -57,8 +66,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     // This code chunk is for testing PARSE
                     // CITE: Taken from Parse's quick start tutorial: https://parse.com/apps/quickstart#parse_data/mobile/ios/swift/existing
                     var testObject = PFObject(className: courseString)
-                    testObject["GroupID"] = String(groupID)
-                    testObject["MemberCount"] = Int(memberCount)
+                    testObject["GroupID"] = groupID
+                    testObject["ShareToken"] = shareToken
+                    testObject["MemberCount"] = memberCount
+                    
                     testObject.saveInBackgroundWithBlock { (success: Bool, error: NSError?) -> Void in
                         print("New group has been created and stored.")
                     }
