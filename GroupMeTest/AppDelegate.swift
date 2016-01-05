@@ -19,6 +19,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var ADMIN_TOKEN: String! = "Uy6V4BXpuvHDp6XUWZ0IkgSQojFRw1h3SRhAWoK6" // This access token corresponds to an admin account that we will use to create and track every single group
     var courseString = "Test" // Placeholder Course String
     let baseURL = "https://api.groupme.com/v3" // Base String for all GroupMe API calls
+    var joinURL = String() // URL for joining (mutable)
     
     // TODO: Make dedicated functions for:
     // 1. Creating a group
@@ -40,9 +41,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         ACCESS_TOKEN = queryArray[1]; // should contain ACCESS TOKEN only
         //        print(ACCESS_TOKEN);
         
-        var myRequest = self.checkForOpen(courseString)
-//        joinGroup(myRequest)
-        print(myRequest)
+        self.checkForOpen(courseString)
         
         
         
@@ -143,7 +142,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 var testObject = PFObject(className: self.courseString)
                 testObject["groupID"] = groupID
                 testObject["shareToken"] = shareToken
-                testObject["memberCount"] = 2
+                testObject["memberCount"] = 1
                 testObject.saveInBackgroundWithBlock { (success: Bool, error: NSError?) -> Void in
                     if (success) {
                         print("New group has been created and stored.")
@@ -159,14 +158,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
     }
     
+    
+    // Prints a String
+    func testFunc(myString: String) {
+        print(myString)
+    }
+    
     // Callback function to be called by checkForOpen
     // Takes inputs of 'Share Token' and 'Group ID' and returns a URL String to be used in GroupMe JOIN calls
     // Output is of form: /groups/:id/join/:share_token (String)
     
-    func makeString(myGroup: String, myToken: String) -> String {
+    func makeString(myGroup: String, myToken: String) -> Void {
         print("/groups/" + myGroup + "/join/" + myToken)
-//        return ("/groups/" + myGroup + "/join/" + myToken)
-        return "test"
+        self.joinURL = "/groups/" + myGroup + "/join/" + myToken
+        joinGroup(joinURL)
     }
     
     // Helper function that joins a group
