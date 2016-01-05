@@ -40,7 +40,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         ACCESS_TOKEN = queryArray[1]; // should contain ACCESS TOKEN only
         //        print(ACCESS_TOKEN);
         
-        //        print(checkForOpen(courseString))
+        var myRequest = self.checkForOpen(courseString)
+//        joinGroup(myRequest)
+        print(myRequest)
+        
+        
         
         //        var groupID = String() // Store GroupID of newly created group
         //        var memberCount = Int() //
@@ -146,6 +150,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                         self.makeString(groupID, myToken: shareToken) // Callback function
                     }
                     else {
+                        print("Error has occurred in storing new group")
                         print(error)
                     }
                 }
@@ -159,7 +164,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     // Output is of form: /groups/:id/join/:share_token (String)
     
     func makeString(myGroup: String, myToken: String) -> String {
-        return "/groups/" + myGroup + "/join/" + myToken
+        print("/groups/" + myGroup + "/join/" + myToken)
+//        return ("/groups/" + myGroup + "/join/" + myToken)
+        return "test"
     }
     
     // Helper function that joins a group
@@ -169,19 +176,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func joinGroup(myRequest: String) {
         
         Alamofire.request(.POST, self.baseURL + myRequest + "?token=" + self.ACCESS_TOKEN)
-            .resonseJSON { response in
-                if let myResponse = response.result.value {
-                    if Int(myResponse["meta"]!!["code"]!!) == 200 {
-                        return true
-                    }
-                    else {
-                        return false
-                    }
-                    
-                }
-        }
+        print("Group Joined")
+//            .responseJSON { response in
+//                if let myResponse = response.result.value {
+//                    if Int(myResponse["meta"]!!["code"]!! as! NSNumber) == 200 {
+//                        return true
+//                    }
+//                    else {
+//                        return false
+//                    }
+//                }
+//        }
     }
-    
+
     
     
     func applicationWillResignActive(application: UIApplication) {
