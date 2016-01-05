@@ -112,7 +112,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                         }
                     }
                 }
-                self.makeString(groupID, myToken: shareToken) // Callback function
+                self.makeString(groupID, myToken: shareToken, objID: objectID) // Callback function
             }
                 
             else {
@@ -137,7 +137,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                         
                 }
                 
-                // Add new class to Parse
+                // Add new object to Parse
                 // CITE: Taken from Parse's quick start tutorial: https://parse.com/apps/quickstart#parse_data/mobile/ios/swift/existing
                 var testObject = PFObject(className: self.courseString)
                 testObject["groupID"] = groupID
@@ -146,7 +146,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 testObject.saveInBackgroundWithBlock { (success: Bool, error: NSError?) -> Void in
                     if (success) {
                         print("New group has been created and stored.")
-                        self.makeString(groupID, myToken: shareToken) // Callback function
+                        self.makeString(groupID, myToken: shareToken, objID: objectID) // Callback function
                     }
                     else {
                         print("Error has occurred in storing new group")
@@ -168,18 +168,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     // Takes inputs of 'Share Token' and 'Group ID' and returns a URL String to be used in GroupMe JOIN calls
     // Output is of form: /groups/:id/join/:share_token (String)
     
-    func makeString(myGroup: String, myToken: String) -> Void {
+    func makeString(myGroup: String, myToken: String, objID: String) -> Void {
         print("/groups/" + myGroup + "/join/" + myToken)
         self.joinURL = "/groups/" + myGroup + "/join/" + myToken
-        joinGroup(joinURL)
+        joinGroup(joinURL, objID: objID)
     }
     
     // Helper function that joins a group
     // Inputs: output string from function 'makeString' and user's access token (ACCESS_TOKEN)
     // Output is boolean for success or fail
     
-    func joinGroup(myRequest: String) {
+    func joinGroup(myRequest: String, objID: String) {
         
+        // Add user to group
         Alamofire.request(.POST, self.baseURL + myRequest + "?token=" + self.ACCESS_TOKEN)
         print("Group Joined")
 //            .responseJSON { response in
@@ -192,6 +193,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //                    }
 //                }
 //        }
+        
+        // Update Parse's member count for that group
+        var query = PFQuery(className:courseString)
+        query.getObjectInBackgroundWithId(objID) {
+            (object: PFObject?, error: NSError?) -> Void in
+            if error != nil {
+                print(error)
+            } else if let object = object {
+                var temp: Int = object["memberCount"] as! Int
+                object["memberCount"] = temp + 1
+                object.saveInBackground()
+            }
+        }
     }
 
     
