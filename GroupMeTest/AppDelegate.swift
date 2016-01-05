@@ -66,12 +66,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     // This code chunk is for testing PARSE
                     // CITE: Taken from Parse's quick start tutorial: https://parse.com/apps/quickstart#parse_data/mobile/ios/swift/existing
                     var testObject = PFObject(className: courseString)
-                    testObject["GroupID"] = groupID
-                    testObject["ShareToken"] = shareToken
-                    testObject["MemberCount"] = memberCount
+                    testObject["groupID"] = groupID
+                    testObject["shareToken"] = shareToken
+                    testObject["memberCount"] = memberCount
                     
                     testObject.saveInBackgroundWithBlock { (success: Bool, error: NSError?) -> Void in
-                        print("New group has been created and stored.")
+                        if(success) {
+                            print("New group has been created and stored.")
+                            var objID = testObject.objectId
+                            print("Object ID is " + String(objID!))
+                        }
+                        else {
+                            print("Error encountered in creating group") // Probably should return actual NSError dictionary
+                        }
                     }
 
                     
