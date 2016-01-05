@@ -18,6 +18,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var ACCESS_TOKEN: String! // This access token belongs to the user and will be used to join or leave groups that have been created already (user will never create a group)
     var ADMIN_TOKEN: String! = "Uy6V4BXpuvHDp6XUWZ0IkgSQojFRw1h3SRhAWoK6" // This access token corresponds to an admin account that we will use to create and track every single group
     var courseString = "Test" // Placeholder Course String
+    let baseURL = "https://api.groupme.com/v3" // Base String for all GroupMe API calls
     
     // TODO: Make dedicated functions for:
     // 1. Creating a group
@@ -39,7 +40,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         ACCESS_TOKEN = queryArray[1]; // should contain ACCESS TOKEN only
         //        print(ACCESS_TOKEN);
         
-        print(checkForOpen(courseString))
+        //        print(checkForOpen(courseString))
         
         //        var groupID = String() // Store GroupID of newly created group
         //        var memberCount = Int() //
@@ -48,10 +49,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //        let parameters: [String: AnyObject] = ["name":"Test", "share":true]
         
         //         This code SHOWS a group with the user's ACCESS_TOKEN
-        //        Alamofire.request(.GET, "https://api.groupme.com/v3/groups/18779921?token=" + ACCESS_TOKEN) // SHOWS a group for a given groupID (hardcoded here)
+        //                Alamofire.request(.GET, "https://api.groupme.com/v3/groups/18779921?token=" + ACCESS_TOKEN) // SHOWS a group for a given groupID (hardcoded here)
         //        Alamofire.request(.POST, "https://api.groupme.com/v3/groups?token=" + ADMIN_TOKEN, parameters: parameters, encoding: .JSON) // CREATES a new group using above 'parameters' variable
-        //            .responseJSON { response in
-        //                if let test = response.result.value {
+        //                    .responseJSON { response in
+        //                        if let test = response.result.value {
         //
         //                    print("Following 3 print statements come from Alamofire callback")
         //                    // Code for parsing Group ID
@@ -70,14 +71,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //
         //                }
         //        }
-        
         return true;
     }
     
     // Helper function for finding open groups
     // Input: Class Name (String)
     // Output: /groups/:id/join/:share_token (String)
-    func checkForOpen(myClass: String) -> String {
+    func checkForOpen(myClass: String) -> Void {
         var objectID = String()
         var groupID = String()
         var shareToken = String()
@@ -109,8 +109,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                         }
                     }
                 }
+                self.makeString(groupID, myToken: shareToken) // Callback function
             }
-           
+                
             else {
                 // Log details of the failure
                 // print("Error: \(error!) \(error!.userInfo)")
@@ -118,7 +119,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 
                 // Make a new group
                 let parameters: [String: AnyObject] = ["name":myClass, "share":true]
-                Alamofire.request(.POST, "https://api.groupme.com/v3/groups?token=" + self.ADMIN_TOKEN, parameters: parameters, encoding: .JSON) // CREATES a new group using above 'parameters' variable
+                Alamofire.request(.POST, self.baseURL + "groups?token=" + self.ADMIN_TOKEN, parameters: parameters, encoding: .JSON) // CREATES a new group using above 'parameters' variable
                     .responseJSON { response in
                         if let test = response.result.value {
                             
@@ -142,6 +143,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 testObject.saveInBackgroundWithBlock { (success: Bool, error: NSError?) -> Void in
                     if (success) {
                         print("New group has been created and stored.")
+                        self.makeString(groupID, myToken: shareToken) // Callback function
                     }
                     else {
                         print(error)
@@ -149,7 +151,35 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 }
             }
         }
-    return "/groups/" + groupID + "/join/" + shareToken
+        
+    }
+    
+    // Callback function to be called by checkForOpen
+    // Takes inputs of 'Share Token' and 'Group ID' and returns a URL String to be used in GroupMe JOIN calls
+    // Output is of form: /groups/:id/join/:share_token (String)
+    
+    func makeString(myGroup: String, myToken: String) -> String {
+        return "/groups/" + myGroup + "/join/" + myToken
+    }
+    
+    // Helper function that joins a group
+    // Inputs: output string from function 'makeString' and user's access token (ACCESS_TOKEN)
+    // Output is boolean for success or fail
+    
+    func joinGroup(myRequest: String) {
+        
+        Alamofire.request(.POST, self.baseURL + myRequest + "?token=" + self.ACCESS_TOKEN)
+            .resonseJSON { response in
+                if let myResponse = response.result.value {
+                    if Int(myResponse["meta"]!!["code"]!!) == 200 {
+                        return true
+                    }
+                    else {
+                        return false
+                    }
+                    
+                }
+        }
     }
     
     
