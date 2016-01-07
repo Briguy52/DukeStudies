@@ -40,7 +40,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let queryArray = urlString!.componentsSeparatedByString("=") // split url like Java's String.split()
         ACCESS_TOKEN = queryArray[1]; // should contain ACCESS TOKEN only
         //        print(ACCESS_TOKEN);
-        
+
         self.checkForOpen(courseString)
         
         
@@ -113,12 +113,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     }
                 }
 
-                if self.checkEmpty(groupID) {
-                    self.deleteGroup(groupID, objID: objectID)
-                    self.checkForOpen(self.courseString)
-                }
+                self.checkEmpty(groupID, shareToken: shareToken, objID: objectID)
                 
-                self.makeString(groupID, myToken: shareToken, objID: objectID) // Callback function
+//              self.makeString(groupID, myToken: shareToken, objID: objectID)
             }
                 
             else {
@@ -131,10 +128,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 Alamofire.request(.POST, self.baseURL + "/groups?token=" + self.ADMIN_TOKEN, parameters: parameters, encoding: .JSON) // CREATES a new group using above 'parameters' variable
                     .responseJSON { response in
                         if let test = response.result.value {
-                            
                             // Code for parsing Group ID
                             groupID = "\(test["response"]!!["group_id"]!!)"
-                            
                             // Code for parsing Share Token
                             var shareURL = test["response"]!!["share_url"]!!
                             var shareArray = shareURL.componentsSeparatedByString("/")
@@ -152,7 +147,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 testObject.saveInBackgroundWithBlock { (success: Bool, error: NSError?) -> Void in
                     if (success) {
                         print("New group has been created and stored.")
-                        self.makeString(groupID, myToken: shareToken, objID: objectID) // Callback function
+                        self.makeString(groupID, shareToken: shareToken, objID: objectID) // Callback function
                     }
                     else {
                         print("Error has occurred in storing new group")
@@ -164,21 +159,26 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
     }
     
-    // Get group information for the group of interest and return whether it is empty or not (empty = size 1 = only admin)
-    func checkEmpty(myGroup: String) -> Bool {
+    // Get group information for the group of interest
+    // If empty, delete it and recall checkForOpen (empty = size 1 = only admin)
+    // If not empty, calls makeString()
+    func checkEmpty(groupID: String, shareToken: String, objID: String) -> Void {
         var memberCount = Int()
-        Alamofire.request(.GET, self.baseURL + "/groups/" + myGroup + "?token=" + self.ADMIN_TOKEN) // SHOW group information
+        Alamofire.request(.GET, self.baseURL + "/groups/" + groupID + "?token=" + self.ADMIN_TOKEN) // SHOW group information
             .responseJSON { response in
                 if let test = response.result.value {
                     // Find number of members
                     memberCount = test["response"]!!["members"]!!.count
-                    print("Member Count of " + myGroup + " : " + String(memberCount))
+                    print("Member count of " + groupID + " in GroupeMe: " + String(memberCount))
+                }
+                if memberCount == 1 {
+                    self.deleteGroup(groupID, objID: objID) //Delete group and recall checkForOpen()
+                }
+                else {
+                    self.makeString(groupID, shareToken: shareToken, objID: objID) //Proceed to making the Alamofire request to join GroupMe group and updating Parse
                 }
         }
-        if memberCount == 1 {
-            return true
-        }
-        return false
+
     }
     
     // Delete group from both GroupMe and Parse
@@ -189,12 +189,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             (object: PFObject?, error: NSError?) -> Void in
             if error != nil {
                 print(error)
+                print("Error deleting group from Parse")
             } else if let object = object {
                 object.deleteInBackground()
-                print("deletion of " + groupID + " successful")
+                print("Deleting " + groupID)
+                Alamofire.request(.POST, self.baseURL + "/groups/" + groupID + "/destroy?token=" + self.ADMIN_TOKEN) // Delete from Alamofire
             }
+            self.checkForOpen(self.courseString)
         }
-        Alamofire.request(.POST, self.baseURL + "/groups/" + groupID + "/destroy?token=" + self.ADMIN_TOKEN)
     }
     
     // Prints a String
@@ -206,9 +208,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     // Takes inputs of 'Share Token' and 'Group ID' and returns a URL String to be used in GroupMe JOIN calls
     // Output is of form: /groups/:id/join/:share_token (String)
     
-    func makeString(groupID: String, myToken: String, objID: String) -> Void {
-        print("/groups/" + groupID + "/join/" + myToken)
-        self.joinURL = "/groups/" + groupID + "/join/" + myToken
+    func makeString(groupID: String, shareToken: String, objID: String) -> Void {
+        print("/groups/" + groupID + "/join/" + shareToken)
+        self.joinURL = "/groups/" + groupID + "/join/" + shareToken
         joinGroup(joinURL, objID: objID)
     }
     
