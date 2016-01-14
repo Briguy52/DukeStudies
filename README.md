@@ -10,5 +10,3 @@
 [Flow Chart](https://docs.google.com/document/d/1kFntG5n3PAH1CtYqMnnthyJpT6axjv3UPh1Rb7KuMuQ/edit)
 
 [Planner/Documentation](https://docs.google.com/document/d/1T7yhHCTcnfTbc_NetQxIdNTA0ZWpndg39Ge1LgSEvPM/edit#) 
-
-
