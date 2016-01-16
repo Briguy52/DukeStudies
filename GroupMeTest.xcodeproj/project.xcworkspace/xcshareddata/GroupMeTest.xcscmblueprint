@@ -1,0 +1,30 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "B838A2A3F2D04B932BCC646B11C4B3085A497770",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "B838A2A3F2D04B932BCC646B11C4B3085A497770" : 0,
+    "159E34C758C359751F5CDED89B1ED41190DE7C5F" : 0
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "5BF5A045-80F6-4EFB-B196-B4EC3C6D6BF9",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "B838A2A3F2D04B932BCC646B11C4B3085A497770" : "DukeStudiesOld\/",
+    "159E34C758C359751F5CDED89B1ED41190DE7C5F" : "Duke-Study-Group\/"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "GroupMeTest",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "GroupMeTest.xcodeproj",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/huyouare\/Duke-Study-Group.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "159E34C758C359751F5CDED89B1ED41190DE7C5F"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/Briguy52\/DukeStudiesOld.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "B838A2A3F2D04B932BCC646B11C4B3085A497770"
+    }
+  ]
+}
