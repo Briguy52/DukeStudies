@@ -4,88 +4,75 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
-		<key>Alamofire.xcscheme</key>
+		<key>Pods-Alamofire.xcscheme</key>
 		<dict>
-			<key>isShown</key>
-			<false/>
 			<key>orderHint</key>
-			<integer>1</integer>
+			<integer>2</integer>
 		</dict>
-		<key>Bolts.xcscheme</key>
+		<key>Pods-CTFeedback-CTFeedback.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>4</integer>
+		</dict>
+		<key>Pods-CTFeedback.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>3</integer>
+		</dict>
+		<key>Pods-EXPhotoViewer.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
 			<integer>5</integer>
 		</dict>
-		<key>Parse.xcscheme</key>
+		<key>Pods-MBProgressHUD.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
 			<integer>6</integer>
 		</dict>
-		<key>Pods-GroupMeTest.xcscheme</key>
+		<key>Pods-SHEmailValidator.xcscheme</key>
 		<dict>
-			<key>isShown</key>
-			<false/>
 			<key>orderHint</key>
-			<integer>3</integer>
+			<integer>7</integer>
 		</dict>
 		<key>Pods.xcscheme</key>
 		<dict>
-			<key>isShown</key>
-			<false/>
 			<key>orderHint</key>
-			<integer>2</integer>
-		</dict>
-		<key>SwiftyJSON.xcscheme</key>
-		<dict>
-			<key>isShown</key>
-			<false/>
-			<key>orderHint</key>
-			<integer>4</integer>
+			<integer>1</integer>
 		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>0A2236933A637B4C5A81E034BB0F2A20</key>
+		<key>02D5741483752D6C91E2CC8E</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>432ECC54282C84882B482CCB4CF227FC</key>
+		<key>5BB4284C9E20BDFDA523E009</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>49640E4819E9BB8E90153FA185013751</key>
+		<key>824925A86AC6F3BB469CF058</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>511B536F0DE06D9C3BD65397A91990C0</key>
+		<key>84AD6E062A9AC38669A6E5B3</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>57CFC4DF5A94826729A3A532FC59EE52</key>
+		<key>9EB6A644523963692AD6B969</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>708E01B006A9F88B3C13711562282B5E</key>
+		<key>B01B291858390D0AD938550A</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>864FAF31EA85A1A7C2D298E6BDA39104</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>B55C0D26A6EE6053ECA9199DA6EE3FDD</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>DCE08288105EA8B230120D23BC00F35A</key>
+		<key>D6FBADB795C449C090170602</key>
 		<dict>
 			<key>primary</key>
 			<true/>

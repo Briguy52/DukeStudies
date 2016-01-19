@@ -1,28 +1,22 @@
 PODS:
-  - Alamofire (3.1.4)
-  - Bolts/Tasks (1.5.1)
-  - Parse (1.11.0):
-    - Bolts/Tasks (~> 1.5)
-  - SwiftyJSON (2.3.2)
+  - Alamofire (1.2.0)
+  - CTFeedback (1.0.17)
+  - EXPhotoViewer (1.1.2)
+  - MBProgressHUD (0.9)
+  - SHEmailValidator (1.0.2)
 
 DEPENDENCIES:
-  - Alamofire (~> 3.0)
-  - Parse
-  - SwiftyJSON (from `https://github.com/SwiftyJSON/SwiftyJSON.git`)
-
-EXTERNAL SOURCES:
-  SwiftyJSON:
-    :git: https://github.com/SwiftyJSON/SwiftyJSON.git
-
-CHECKOUT OPTIONS:
-  SwiftyJSON:
-    :commit: 8e618c8baf6323a5079c6549bb38d48357b31630
-    :git: https://github.com/SwiftyJSON/SwiftyJSON.git
+  - Alamofire (~> 1.2)
+  - CTFeedback
+  - EXPhotoViewer
+  - MBProgressHUD (~> 0.8)
+  - SHEmailValidator (~> 1.0.2)
 
 SPEC CHECKSUMS:
-  Alamofire: fbc829692f351fa1d8a31dd75fd7f7f56fea31fb
-  Bolts: a12663244b1d3351c738882e71902fc74db54f64
-  Parse: 886af46a0a677402f6374bb97ac212e795f70afe
-  SwiftyJSON: 04ccea08915aa0109039157c7974cf0298da292a
+  Alamofire: d765c5c1713aa64106b0228aaa600a1e6851f68d
+  CTFeedback: 8706fc51355f04646262441193983f6d10702d0c
+  EXPhotoViewer: 01d391c4e5f7d25470d92b26837d40a362714ce0
+  MBProgressHUD: d8e7ea388dc1549a42e0d219067cf5f2c898fb66
+  SHEmailValidator: b897320322e52eddc894173ef6fa8f98ca7e3639
 
-COCOAPODS: 0.39.0
+COCOAPODS: 0.37.1
